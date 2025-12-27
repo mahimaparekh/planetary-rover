@@ -104,12 +104,6 @@ class Environment:
             return True
         return False
 
-env = Environment(10,10,1)
-print(env.display_grid())
-print(env.get_stations())
-print(env.get_terrain(0, 0))            # should print 'flat'
-print(env.get_terrain(env.size-1, env.size-1))  # should print 'flat'
-print(env.is_goal(9,9))
 
 
 
