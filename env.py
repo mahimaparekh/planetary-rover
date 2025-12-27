@@ -19,11 +19,16 @@ class Environment:
     }
 
     # constructor
-    def __init__(self,size, seed=None):
+    def __init__(self,size, stations, seed=None):
         if seed is not None:
             random.seed(seed)
         self.size = size
+        self.num_stations = stations
         self.grid = self.set_grid()
+        self.stations = set()
+
+        self.set_terrain()
+        self.set_recharge_stations()
     
     # initializing the grid
     def set_grid(self):
@@ -75,6 +80,21 @@ class Environment:
             if 0 <= new_row < self.size and 0 <= new_col < self.size:
                 neighbors.append((new_row, new_col))
         return neighbors
+    
+    def set_recharge_stations(self):
+        while len(self.stations) < self.num_stations:
+            row = random.randint(0, self.size-1)
+            col = random.randint(0, self.size - 1)
+
+            if self.get_terrain(row,col)=='flat':
+                self.stations.add((row,col))
+
+    def get_stations(self):
+        return self.stations
+
+env = Environment(10,10,1)
+print(env.display_grid())
+print(env.get_stations())
 
 
 
