@@ -26,8 +26,12 @@ class Environment:
         self.num_stations = stations
         self.grid = self.set_grid()
         self.stations = set()
+        self.start = (0,0)
+        self.goal = (self.size-1, self.size-1)
 
         self.set_terrain()
+        self.set_terrain_type(*self.start, 'flat')
+        self.set_terrain_type(*self.goal, 'flat')
         self.set_recharge_stations()
     
     # initializing the grid
@@ -46,6 +50,9 @@ class Environment:
     # returns the grid
     def display_grid(self):
         return self.grid
+    
+    def set_terrain_type(self,row,col,type):
+        self.grid[row][col] = type
     
     # returns the terrain type
     def get_terrain(self,row,col):
@@ -86,15 +93,24 @@ class Environment:
             row = random.randint(0, self.size-1)
             col = random.randint(0, self.size - 1)
 
-            if self.get_terrain(row,col)=='flat':
+            if self.get_terrain(row,col)=='flat' and (row,col)!=self.start and (row,col)!=self.goal:
                 self.stations.add((row,col))
 
     def get_stations(self):
         return self.stations
+    
+    def is_goal(self, row,col):
+        if (row,col)==(self.size-1,self.size-1):
+            return True
+        return False
 
 env = Environment(10,10,1)
 print(env.display_grid())
 print(env.get_stations())
+print(env.get_terrain(0, 0))            # should print 'flat'
+print(env.get_terrain(env.size-1, env.size-1))  # should print 'flat'
+print(env.is_goal(9,9))
+
 
 
 
