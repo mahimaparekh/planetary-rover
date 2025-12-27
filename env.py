@@ -19,24 +19,23 @@ class Environment:
     }
 
     # constructor
-    def __init__(self,height,width, seed=None):
+    def __init__(self,size, seed=None):
         if seed is not None:
             random.seed(seed)
-        self.width = width
-        self.height = height
+        self.size = size
         self.grid = self.set_grid()
     
     # initializing the grid
     def set_grid(self):
-        return [[None for col in range(self.width)] for row in range(self.height)]
+        return [[None for col in range(self.size)] for row in range(self.size)]
     
     # setting the terrains on the grid
     def set_terrain(self):
         terrains = list(self.terrain_prob.keys())
         probabilities = list(self.terrain_prob.values())
 
-        for row in range(self.height):
-            for col in range(self.width):
+        for row in range(self.size):
+            for col in range(self.size):
                 self.grid[row][col]=random.choices(terrains,probabilities)[0]
     
     # returns the grid
@@ -73,9 +72,8 @@ class Environment:
             new_col = col + dc
 
             # checks if co-ordinates are within bounds
-            if 0 <= new_row < self.height and 0 <= new_col < self.width:
+            if 0 <= new_row < self.size and 0 <= new_col < self.size:
                 neighbors.append((new_row, new_col))
-
         return neighbors
 
 
