@@ -63,10 +63,10 @@ class Environment:
     def get_neighbors(self, row, col):
         neighbors = []
         
-        directions = [(-1, 0),  # up
-                    (1, 0),   # down
-                    (0, -1),  # left
-                    (0, 1)]   # right
+        directions = [(-1, 0), 
+                    (1, 0),   
+                    (0, -1),  
+                    (0, 1)]   
 
         for dr, dc in directions:
             new_row = row + dr
@@ -79,10 +79,6 @@ class Environment:
         return neighbors
 
 
-# create an environment object of size 10x10 with seed=42 
-env = Environment(10,10, 42)
-env.set_terrain()
-print(env.display_grid())
 
 
 
