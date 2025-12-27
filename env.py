@@ -9,7 +9,7 @@ class Environment:
         'radiation':15,
         'rocky':1000
     }
-    # pribability of each terrain
+    # probability of each terrain
     terrain_prob = {
         'flat':0.5,
         'sandy':0.2,
