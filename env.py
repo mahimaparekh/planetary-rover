@@ -70,10 +70,8 @@ class Environment:
         terrain_type = self.get_terrain(row,col)
         return self.terrain_cost[terrain_type]
 
-
     def get_neighbors(self, row, col):
         neighbors = []
-        
         directions = [(-1, 0), 
                     (1, 0),   
                     (0, -1),  
