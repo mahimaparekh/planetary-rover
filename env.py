@@ -1,7 +1,6 @@
 import random
 
 class Environment:
-    # dictionary for the cost of terrains
     terrain_cost = {
         'flat':5,
         'sandy':10,
@@ -9,7 +8,6 @@ class Environment:
         'radiation':15,
         'rocky':1000
     }
-    # probability of each terrain
     terrain_prob = {
         'flat':0.5,
         'sandy':0.2,
@@ -18,7 +16,6 @@ class Environment:
         'rocky':0.2
     }
 
-    # constructor
     def __init__(self,size, stations, seed=None):
         if seed is not None:
             random.seed(seed)
@@ -34,11 +31,9 @@ class Environment:
         self.set_terrain_type(*self.goal, 'flat')
         self.set_recharge_stations()
     
-    # initializing the grid
     def set_grid(self):
         return [[None for col in range(self.size)] for row in range(self.size)]
     
-    # setting the terrains on the grid
     def set_terrain(self):
         terrains = list(self.terrain_prob.keys())
         probabilities = list(self.terrain_prob.values())
@@ -47,25 +42,21 @@ class Environment:
             for col in range(self.size):
                 self.grid[row][col]=random.choices(terrains,probabilities)[0]
     
-    # returns the grid
     def display_grid(self):
         return self.grid
     
     def set_terrain_type(self,row,col,type):
         self.grid[row][col] = type
     
-    # returns the terrain type
     def get_terrain(self,row,col):
         return self.grid[row][col]
     
-    # checks if terrain is hazardous (sand-trap or radiation-hotspot)
     def is_hazardous(self,row,col):
         terrain_type = self.get_terrain(row,col)
         if(terrain_type=='sand-trap' or terrain_type=='radiation'):
             return True
         return False
 
-    # returns terrain cost
     def get_terrain_cost(self,row,col):
         terrain_type = self.get_terrain(row,col)
         return self.terrain_cost[terrain_type]
@@ -81,7 +72,6 @@ class Environment:
             new_row = row + dr
             new_col = col + dc
 
-            # checks if co-ordinates are within bounds
             if 0 <= new_row < self.size and 0 <= new_col < self.size:
                 neighbors.append((new_row, new_col))
         return neighbors
@@ -101,6 +91,14 @@ class Environment:
         if (row,col)==(self.size-1,self.size-1):
             return True
         return False
+    
+    def get_hazardous_zones(self):
+        zones = []
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.is_hazardous(row,col):
+                    zones.append((row,col))
+        return zones
 
 
 
