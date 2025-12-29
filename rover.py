@@ -6,6 +6,7 @@ class Rover:
     def __init__(self, environment, battery, heuristic="manhattan"):
         self.env = environment
         self.curr_pos = self.env.start
+        self.battery_capacity = battery
         self.battery = battery
         self.final_goal = self.env.goal
         self.heuristic = heuristic
@@ -48,7 +49,7 @@ class Rover:
             print("Current goal:", self.goal)
             print("Battery level:", self.battery)
 
-            planner = Planner(self.env, self.heuristic)
+            planner = Planner(self.env, self.heuristic, self.battery_capacity)
             path = planner.get_path(self.curr_pos, self.goal, self.hazardous_cells)
 
             if path is None:
