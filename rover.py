@@ -62,15 +62,14 @@ class Rover:
             if success == 'Dead':
                 print("Battery depleted during path following! Rover did not reach goal.")
                 return False
-            
             if not success:
                 print("Replanning due to hazard or battery condition.")
 
-        print("🎯 Final goal reached:", self.final_goal)
+        print("Final goal reached:", self.final_goal)
         return True
 
     def follow_path(self, path):
-        for cell in path[1:]:  # skip current position
+        for cell in path[1:]: 
             move_cost = self.env.get_terrain_cost(cell[0], cell[1])
             if self.battery < move_cost:
                 return 'Dead'
