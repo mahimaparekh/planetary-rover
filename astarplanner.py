@@ -1,8 +1,10 @@
+import math
 class Planner:
 
-    def __init__(self, environment, heuristic):
+    def __init__(self, environment, heuristic, battery):
         self.env = environment
         self.heuristic = heuristic
+        self.battery_capacity = battery
 
     def get_path(self, curr_pos, goal,hazardous_cells):
         open_list = []
@@ -54,6 +56,19 @@ class Planner:
         path.reverse()
         return path
 
-    def calculate_heuristic(self, curr_pos, goal):
-        if self.heuristic == 'manhattan':
-            return abs(curr_pos[0] - goal[0]) + abs(curr_pos[1] - goal[1])
+    def calculate_heuristic(self, curr_pos, goal, battery=None):
+        dx = abs(curr_pos[0] - goal[0])
+        dy = abs(curr_pos[1] - goal[1])
+        base_dist = math.sqrt(dx**2 + dy**2)
+        if self.heuristic == "manhattan":
+            return dx + dy
+        elif self.heuristic == "euclidean":
+            return base_dist
+        elif self.heuristic == "terrain_weighted":
+            avg_cost = (self.env.get_terrain_cost(curr_pos[0],curr_pos[1]), 5) + (self.env.get_terrain(goal[0],goal[1]), 5) / 2
+            return base_dist * (avg_cost / 5)
+        elif self.heuristic == "battery_aware":
+            penalty = (self.battery_capacity - battery) / (self.battery_capacity / 2)
+            return base_dist * (1 + penalty)
+        else:
+            return dx + dy
